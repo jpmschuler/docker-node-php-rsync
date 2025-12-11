@@ -1,0 +1,20 @@
+{
+  "name": "docker-node-php-rsync",
+  "version": "1.0.2",
+  "description": "php with npm and composer and rsync",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build:latest && npm run build:current",
+    "build:latest": "docker buildx build --platform linux/amd64,linux/arm64 -t jpmschuler/docker-node-php-rsync:latest .",
+    "build:current": "docker buildx build --platform linux/amd64,linux/arm64 -t jpmschuler/docker-node-php-rsync:$(npm pkg get version | tr -d '\"') .",
+    "dockerpush": "npm run dockerpush:latest && npm run dockerpush:current",
+    "dockerpush:latest": "docker push jpmschuler/docker-node-php-rsync:latest",
+    "dockerpush:current": "docker push jpmschuler/docker-node-php-rsync:$(npm pkg get version | tr -d '\"')",
+    "tag:current": "git tag $(npm pkg get version | tr -d '\"')",
+    "git:push": "git push; git push --tags",
+    "release": "npm run build && npm run dockerpush && npm run git:push"
+  },
+  "author": "",
+  "license": "ISC"
+}
